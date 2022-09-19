@@ -1,0 +1,1 @@
+# Scaffolding for hexagonal SpringBoot API
