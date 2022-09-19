@@ -29,7 +29,7 @@ class PriceEndPointTest {
     static final String BASE_URL = "http://localhost:";
 
     @Test
-    void getPriceOKTest() {
+    void getPriceOKE2ETest() {
         LocalDateTime date = LocalDateTime.of(2020, 6, 15, 0, 0, 0);
         Long productId = 35455L;
         Long brandId = 1L;

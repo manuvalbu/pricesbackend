@@ -1,9 +1,10 @@
 package com.indirex.challenge.it;
 
+import com.inditex.challenge.business.domain.entity.Price;
+import com.inditex.challenge.business.domain.vo.DateRange;
 import com.inditex.challenge.business.exception.PriceNotFoundException;
 import com.inditex.challenge.business.port.input.IPriceService;
 import com.inditex.challenge.presentation.controller.PriceController;
-import com.inditex.challenge.presentation.dto.PriceDtoOut;
 import com.inditex.challenge.presentation.exception.ExceptionController;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +19,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static com.inditex.challenge.presentation.controller.PriceController.BASE_PATH;
 import static com.inditex.challenge.presentation.controller.PriceController.PRICE_PATH;
@@ -43,15 +45,20 @@ class PriceApiControllerTest {
     }
 
     @Test
-    void getPriceOk() throws Exception {
+    void getPriceOkITest() throws Exception {
         LocalDateTime date = LocalDateTime.of(2020, 6, 15, 0, 0, 0);
         Long productId = 35455L;
         Long brandId = 1L;
         Long priceList = 3L;
         Float price = 23.5f;
-        PriceDtoOut priceDtoOut = PriceDtoOut.builder().priceList(priceList).price(price).build();
+        DateRange dateRange = new DateRange(date, date.plusHours(2));
+        Price priceEntity = Price.builder()
+                .dateRange(dateRange)
+                .priceList(priceList)
+                .price(price)
+                .build();
 
-        when(priceServiceMock.retrievePrice(date, productId, brandId)).thenReturn(priceDtoOut);
+        when(priceServiceMock.retrievePrice(date, productId, brandId)).thenReturn(priceEntity);
 
         final String path = UriComponentsBuilder.fromPath(BASE_PATH + PRICE_PATH)
                 .queryParam("date", date)
@@ -61,6 +68,7 @@ class PriceApiControllerTest {
         this.mockMvc.perform(MockMvcRequestBuilders.get(path))
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.endDate").value(dateRange.endDate().format(DateTimeFormatter.ISO_DATE_TIME)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.priceList").value(priceList))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.price").value(price));
 
@@ -68,7 +76,7 @@ class PriceApiControllerTest {
     }
 
     @Test
-    void getPriceKoPriceNotFound() throws Exception {
+    void getPriceKoPriceNotFoundITest() throws Exception {
         LocalDateTime date = LocalDateTime.of(2020, 6, 15, 0, 0, 0);
         Long productId = 35455L;
         Long brandId = 1L;

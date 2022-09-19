@@ -1,7 +1,9 @@
 package com.inditex.challenge.presentation.controller;
 
+import com.inditex.challenge.business.domain.entity.Price;
 import com.inditex.challenge.business.port.input.IPriceService;
 import com.inditex.challenge.presentation.dto.PriceDtoOut;
+import com.inditex.challenge.presentation.mapper.PriceDomainPresentationMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -30,7 +32,8 @@ public class PriceController {
             @RequestParam("product_id") Long productId,
             @RequestParam("brand_id") Long brandId) {
         log.info("getting Price");
-        PriceDtoOut priceDtoOut = priceService.retrievePrice(date, productId, brandId);
+        Price priceEntity = priceService.retrievePrice(date, productId, brandId);
+        PriceDtoOut priceDtoOut = new PriceDomainPresentationMapper().convertToDtoOut(priceEntity);
         log.info("successfully get price");
         return ResponseEntity.ok(priceDtoOut);
     }
