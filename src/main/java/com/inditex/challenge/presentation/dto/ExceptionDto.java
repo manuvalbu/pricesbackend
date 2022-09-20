@@ -6,5 +6,6 @@ import lombok.Builder;
 public record ExceptionDto(String code,
                            String message) {
     public ExceptionDto {
+        // For working with lombok builder
     }
 }

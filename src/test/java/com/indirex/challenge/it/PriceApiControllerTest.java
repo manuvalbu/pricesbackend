@@ -1,6 +1,7 @@
 package com.indirex.challenge.it;
 
 import com.inditex.challenge.business.domain.entity.Price;
+import com.inditex.challenge.business.domain.vo.Currency;
 import com.inditex.challenge.business.domain.vo.DateRange;
 import com.inditex.challenge.business.exception.PriceNotFoundException;
 import com.inditex.challenge.business.port.input.IPriceService;
@@ -51,11 +52,13 @@ class PriceApiControllerTest {
         Long brandId = 1L;
         Long priceList = 3L;
         Float price = 23.5f;
+        Currency currency = Currency.EUR;
         DateRange dateRange = new DateRange(date, date.plusHours(2));
         Price priceEntity = Price.builder()
                 .dateRange(dateRange)
                 .priceList(priceList)
                 .price(price)
+                .curr(currency)
                 .build();
 
         when(priceServiceMock.retrievePrice(date, productId, brandId)).thenReturn(priceEntity);
@@ -70,7 +73,8 @@ class PriceApiControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.endDate").value(dateRange.endDate().format(DateTimeFormatter.ISO_DATE_TIME)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.priceList").value(priceList))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.price").value(price));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.price").value(price))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.curr").value(currency.toString()));
 
         verify(priceServiceMock, times(1)).retrievePrice(date, productId, brandId);
     }

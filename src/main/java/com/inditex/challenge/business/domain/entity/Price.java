@@ -13,5 +13,6 @@ public record Price(Long brandId,
                     Float price,
                     Currency curr) {
     public Price {
+        // For working with lombok builder
     }
 }

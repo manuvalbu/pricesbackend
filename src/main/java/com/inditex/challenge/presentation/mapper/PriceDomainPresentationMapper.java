@@ -15,6 +15,7 @@ public class PriceDomainPresentationMapper {
                 .startDate(price.dateRange().startDate().format(DateTimeFormatter.ISO_DATE_TIME))
                 .endDate(price.dateRange().endDate().format(DateTimeFormatter.ISO_DATE_TIME))
                 .price(price.price())
+                .curr(price.curr())
                 .build();
     }
 }

@@ -1,8 +1,7 @@
 package com.inditex.challenge.presentation.dto;
 
+import com.inditex.challenge.business.domain.vo.Currency;
 import lombok.Builder;
-
-import java.time.LocalDateTime;
 
 @Builder
 public record PriceDtoOut(Long productId,
@@ -10,7 +9,10 @@ public record PriceDtoOut(Long productId,
                           Long priceList,
                           String startDate,
                           String endDate,
-                          Float price) {
-    public PriceDtoOut {}
+                          Float price,
+                          Currency curr) {
+    public PriceDtoOut {
+        // For working with lombok builder
+    }
 }
 
