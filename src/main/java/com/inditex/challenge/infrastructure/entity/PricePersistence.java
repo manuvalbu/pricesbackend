@@ -1,12 +1,12 @@
 package com.inditex.challenge.infrastructure.entity;
 
-import com.inditex.challenge.business.domain.vo.Currency;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
@@ -15,14 +15,16 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 @Entity
-@Table(name = "PRICE")
+@Table(name = "PRICES")
 public class PricePersistence {
-    Long productId;
+    @Id
+    Long priceId;
     Long brandId;
     LocalDateTime startDate;
     LocalDateTime endDate;
     Long priceList;
+    Long productId;
     Long priority;
     Float price;
-    Currency curr;
+    String curr;
 }

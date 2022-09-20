@@ -1,6 +1,7 @@
 package com.indirex.challenge.ut;
 
 import com.inditex.challenge.business.domain.entity.Price;
+import com.inditex.challenge.business.domain.vo.Currency;
 import com.inditex.challenge.business.domain.vo.DateRange;
 import com.inditex.challenge.business.exception.PriceNotFoundException;
 import com.inditex.challenge.infrastructure.entity.PricePersistence;
@@ -79,6 +80,7 @@ class PriceRepositoryTest {
                 .priceList(priceList1)
                 .price(price1)
                 .priority(priority1)
+                .curr(Currency.EUR.toString())
                 .build();
         PricePersistence pricePersistenceEntity2 = PricePersistence.builder()
                 .startDate(dateRange.startDate())
@@ -86,6 +88,7 @@ class PriceRepositoryTest {
                 .priceList(priceList2)
                 .price(finalPrice)
                 .priority(priority2)
+                .curr(Currency.EUR.toString())
                 .build();
         return Arrays.asList(pricePersistenceEntity1, pricePersistenceEntity2);
     }
